@@ -139,7 +139,7 @@ label {
 
 input,
 select {
-  width: 100%;
+  width: 95%;
   padding: 8px;
   margin-top: 4px;
 }
@@ -148,7 +148,7 @@ button {
   width: 100%;
   padding: 10px;
   margin-top: 12px;
-  background-color: #42b883;
+  background-color: #1541e1;
   color: white;
   border: none;
   border-radius: 4px;
@@ -161,11 +161,11 @@ button:disabled {
 }
 
 .erro {
-  border: 1px solid red;
+  border: 1px solid crimson
 }
 
 .mensagem-erro {
-  color: red;
+  color: crimson;
   font-size: 0.9rem;
   margin-top: -8px;
   margin-bottom: 10px;
@@ -174,6 +174,6 @@ button:disabled {
 .mensagem-final {
   margin-top: 20px;
   font-weight: bold;
-  color: #2c7;
+  color: #1541e1;
 }
 </style>
