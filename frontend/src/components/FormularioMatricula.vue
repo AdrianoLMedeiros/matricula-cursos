@@ -56,11 +56,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-
-interface Curso {
-  id: number;
-  nome: string;
-}
+import { apiService, type Curso } from "../services/api";
 
 const nome = ref("");
 const email = ref("");
@@ -92,8 +88,12 @@ function validarCurso() {
 
 // Carregar cursos
 onMounted(async () => {
-  const resposta = await fetch("http://localhost:3000/cursos");
-  cursos.value = await resposta.json();
+  try {
+    cursos.value = await apiService.getCursos();
+  } catch (erro) {
+    mensagem.value = "Erro ao carregar cursos.";
+    console.error(erro);
+  }
 });
 
 // Enviar formulário
@@ -105,21 +105,29 @@ async function enviarFormulario() {
   if (erroNome.value || erroEmail.value || erroCurso.value) return;
 
   carregando.value = true;
+  mensagem.value = "";
 
-  const resposta = await fetch("http://localhost:3000/matricula", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  try {
+    const dados = await apiService.matricular({
       nome: nome.value,
       email: email.value,
       cursoId: Number(cursoId.value)
-    })
-  });
-
-  const dados = await resposta.json();
-  mensagem.value = dados.mensagem || dados.erro;
-
-  carregando.value = false;
+    });
+    
+    mensagem.value = dados.mensagem || dados.erro;
+    
+    if (!dados.erro) {
+      // Limpar campos em caso de sucesso
+      nome.value = "";
+      email.value = "";
+      cursoId.value = "";
+    }
+  } catch (erro) {
+    mensagem.value = "Erro na comunicação com o servidor.";
+    console.error(erro);
+  } finally {
+    carregando.value = false;
+  }
 }
 </script>
 
