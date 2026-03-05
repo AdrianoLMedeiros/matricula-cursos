@@ -48,7 +48,7 @@ Contempla:
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 matricula-cursos/
 │
